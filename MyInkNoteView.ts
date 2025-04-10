@@ -5,22 +5,12 @@ import { InteractiveInkSSREditor } from 'iink-ts';
 export const VIEW_TYPE_EXAMPLE = 'myInkNoteView';
 
 export class MyInkNoteView extends ItemView {
-
 	constructor(leaf: WorkspaceLeaf) {
 		super(leaf);
-	}
+	};
 
-	getViewType() {
-		return VIEW_TYPE_EXAMPLE;
-	}
-
-	getDisplayText() {
-		return 'MyInkNote';
-	}
-
-	async onOpen() {
-		const CONTAINER = this.containerEl.children[1].createDiv();
-		const OPTIONS = {
+	CONTAINER = this.containerEl.children[1].createDiv();
+	OPTIONS = {
 		configuration: {
 			server: {
 		// !!! Hier müssen die Keys, die unter https://developer.myscript.com/getting-started/web angefordertwurden anstelle XXX eingefügt werden !!!
@@ -31,12 +21,23 @@ export class MyInkNoteView extends ItemView {
 				lang: "de_DE"
 			}
 		}
-	};
-		let editor = new InteractiveInkSSREditor(CONTAINER, OPTIONS);
-		await editor.initialize();
+	}
+	EDITOR = new InteractiveInkSSREditor(this.CONTAINER, this.OPTIONS);
+	
+
+	getViewType() {
+		return VIEW_TYPE_EXAMPLE;
+	}
+
+	getDisplayText() {
+		return 'MyInkNote';
+	}
+
+	async onOpen() {
+		await this.EDITOR.initialize();
 	}
 
 	async onClose() {
-
+		await this.EDITOR.clear();
 	}
 }
