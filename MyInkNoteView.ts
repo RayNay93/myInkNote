@@ -1,5 +1,6 @@
 import { ItemView, WorkspaceLeaf } from 'obsidian';
 import { InteractiveInkSSREditor } from 'iink-ts';
+import { text } from 'stream/consumers';
 
 
 export const VIEW_TYPE_EXAMPLE = 'myInkNoteView';
@@ -9,7 +10,8 @@ export class MyInkNoteView extends ItemView {
 		super(leaf);
 	};
 
-	CONTAINER = this.containerEl.children[1].createDiv();
+	CONTAINER = this.containerEl.children[1];
+	MyScriptContainer = this.CONTAINER.createDiv();
 	OPTIONS = {
 		configuration: {
 			server: {
@@ -22,7 +24,7 @@ export class MyInkNoteView extends ItemView {
 			}
 		}
 	}
-	EDITOR = new InteractiveInkSSREditor(this.CONTAINER, this.OPTIONS);
+	EDITOR = new InteractiveInkSSREditor(this.MyScriptContainer, this.OPTIONS);
 	
 
 	getViewType() {
@@ -34,7 +36,7 @@ export class MyInkNoteView extends ItemView {
 	}
 
 	async onOpen() {
-		await this.EDITOR.initialize();
+		setTimeout(() => {this.EDITOR.initialize()}, 500);
 	}
 
 	async onClose() {
